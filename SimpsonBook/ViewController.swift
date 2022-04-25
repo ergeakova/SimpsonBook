@@ -12,6 +12,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var tableView: UITableView!
     
     var family = [Simpson]()
+    var chosenSimpson :Simpson?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,10 +22,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         navigationItem.title = "SimpSon Book"
         
         family.append(Simpson(nameInit: "Homer", jobInit: "Nucluear Safety" , imageInit: UIImage(named: "Homer")!))
-        family.append(Simpson(nameInit: "Bart", jobInit: "Nucluear Safety" , imageInit: UIImage(named: "Bart")!))
-        family.append(Simpson(nameInit: "Lisa", jobInit: "Nucluear Safety" , imageInit: UIImage(named: "Lisa")!))
-        family.append(Simpson(nameInit: "Maggie", jobInit: "Nucluear Safety" , imageInit: UIImage(named: "Maggie")!))
-        family.append(Simpson(nameInit: "Marge", jobInit: "Nucluear Safety" , imageInit: UIImage(named: "Marge")!))
+        family.append(Simpson(nameInit: "Bart", jobInit: "Student" , imageInit: UIImage(named: "Bart")!))
+        family.append(Simpson(nameInit: "Lisa", jobInit: "Student" , imageInit: UIImage(named: "Lisa")!))
+        family.append(Simpson(nameInit: "Maggie", jobInit: "Baby" , imageInit: UIImage(named: "Maggie")!))
+        family.append(Simpson(nameInit: "Marge", jobInit: "House Wife" , imageInit: UIImage(named: "Marge")!))
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -36,4 +37,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.textLabel?.text = family[indexPath.row].name
         return cell
        }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        chosenSimpson = family[indexPath.row]
+        performSegue(withIdentifier: "toDetailsVC", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toDetailsVC" {
+            let destinationVC = segue.destination as! DetailVc
+            destinationVC.SelectedSimpson = chosenSimpson
+        }
+    }
 }
